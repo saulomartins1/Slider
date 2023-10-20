@@ -1,5 +1,28 @@
-*{
+* {
     margin: 0;
     text-decoration: none;
     color: #333;
+}
+
+.wrapper {
+    overflow: hidden;
+}
+
+.slide {
+    display: flex;
+}
+
+.slide .card {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 80vw;
+    max-width: 250px;
+    /*card ocupa 80vw da tela com o width acima e não é shrink = encolhido para caber na tela */
+    /*Mas só tem no máximo 250px */
+    flex-shrink: 0;
+    padding: .9rem;
+    border: 1px solid #333;
+    background-color: #eee6;
+    margin: .6rem;
 }
