@@ -2,36 +2,43 @@ export default class Slide {
     constructor(wrapper, slide) {
         this.wrapper = document.querySelector(wrapper);
         this.slide = document.querySelector(slide);
+        this.dist = { finalPosition: 0, startX: 0, movement: 0 }
+
     }
 
-    onStart() {
-        console.log("mouse down")
-        //#2 - ao iniciado onStart: permite o onMove() ao evento de "mousemove"
+    moveSlide(distX) {
+        this.slide.style.transform = `translate3d(${distX}px, 0, 0)`
+        this.dist.movePosition = distX;
+    }
+
+    updatePosition(clientX) {
+        this.dist.movement = (this.dist.startX - clientX) * 1.3;
+        return this.dist.finalPosition - this.dist.movement;
+    }
+
+    onStart(e) {
+        e.preventDefault()
+        this.dist.startX = e.clientX;
         this.wrapper.addEventListener("mousemove", this.onMove);
     }
 
     onEnd() {
-        console.log("mouse up")
-        //#4 (fim) - ao eventListener captar o "mouseup" que veio do onMove(), então remove o "mousemove" e finaliza a funcionalidade básica do slide.
         this.wrapper.removeEventListener("mousemove", this.onMove);
+        this.dist.finalPosition = this.dist.movePosition;
     }
-    onMove() {
-        console.log("mouse move")
-        //#3 - ao iniciado onMove: deixa preparado (trigger) o evento de "mouseup" para ativar a função onEnd() quando mouseup
+    onMove(e) {
         this.wrapper.addEventListener("mouseup", this.onEnd);
+        const finalPosition = this.updatePosition(e.clientX)
+        this.moveSlide(finalPosition)
     }
-
 
 
     addSlideEvents() {
-        //#1 - Inicia o onStart() ao evento de "mousedown" (no elemento wrapper)
         this.wrapper.addEventListener("mousedown", this.onStart);
     }
 
 
 
-
-    //bind: Nos events (onStart) - "this" fazer referência sempre ao objeto em si (Class Slide);
     bindEvents() {
         this.onStart = this.onStart.bind(this);
         this.onMove = this.onMove.bind(this);
