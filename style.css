@@ -25,4 +25,16 @@
     border: 1px solid #333;
     background-color: #eee6;
     margin: .6rem;
+    opacity: .6;
+    transform: scale(.9);
+    transition: .3s;
+}
+
+.slide:hover {
+    will-change: transform;
+}
+
+.slide .card.active {
+    opacity: 1;
+    transform: scale(1);
 }
